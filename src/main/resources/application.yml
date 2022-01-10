@@ -1,24 +1,27 @@
 spring:
   application:
-    name: "@project.artifactId@"
+    name: @project.artifactId@
   jackson:
-    default-property-inclusion: non_empty
+    default-property-inclusion: non_null
     deserialization:
       fail-on-unknown-properties: false
+kafka:
+  broker:
+    password: kafka
   kafka:
     streams:
       properties:
-        deserialization.exception.handler.dlq.topic: ${kafka.topic.dlq}
+        deserialization.exception.handler.dlq.topic: ${topic.dlq}
         deserialization.exception.handler.dlq.producer.properties:
           acks: 0 # Valeur à changer en production
           retries: 0 # Valeur à changer en production
           retry.backoff.ms: 1000 # Valeur à changer en production (default 100)
-
-kafka:
   topic:
     in:
       car-topic: car-topic
       country-topic: country-topic
     out:
       result-topic: result-topic
+    state-store:
+      country-store: country-store
     dlq: dlq-topic
